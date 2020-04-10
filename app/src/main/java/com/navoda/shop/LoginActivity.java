@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        String url = "http://lahiruat-29044.portmap.io:29044/grocery-core/api/auth/";
+        String url = "http://lahiruat-29044.portmap.io:29044/grocery-core/api/auth/signin";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody, new com.android.volley.Response.Listener<JSONObject>() {
             @Override
