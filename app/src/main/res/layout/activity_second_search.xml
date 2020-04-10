@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondSearchActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/price"
+            android:layout_weight="1"
+            android:text="price"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sub"
+            android:layout_weight="1"
+            android:text="sub"/>
+
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/grid_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="3"
+        android:layout_weight="1">
+    </GridView>
+
+    <Button
+        android:background="@color/colorAccent"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="View List"
+        android:id="@+id/view_list"
+        android:onClick="onTapViewList"
+        />
+
+</LinearLayout>
