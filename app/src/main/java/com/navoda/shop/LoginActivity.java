@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -72,26 +77,51 @@ public class LoginActivity extends AppCompatActivity {
 //        });
 
 
-        Call<tokenObj> call = ApiClient.getInstance().getApi().signin(user,pass);
-
-        call.enqueue(new Callback<tokenObj>() {
-            @Override
-            public void onResponse(Call<tokenObj> call, Response<tokenObj> response) {
-//                if (response.code() == 201){
-
-                    tokenObj t = response.body();
-                    Toast.makeText(LoginActivity.this, t.getType() , Toast.LENGTH_SHORT).show();
-//                }else{
-//                    Toast.makeText(LoginActivity.this, "dksav" , Toast.LENGTH_SHORT).show();
+//        Call<tokenObj> call = ApiClient.getInstance().getApi().signin(user,pass);
 //
-//                }
-            }
+//        call.enqueue(new Callback<tokenObj>() {
+//            @Override
+//            public void onResponse(Call<tokenObj> call, Response<tokenObj> response) {
+////                if (response.code() == 201){
+//
+//                    tokenObj t = response.body();
+//                    Toast.makeText(LoginActivity.this, t.getType() , Toast.LENGTH_SHORT).show();
+////                }else{
+////                    Toast.makeText(LoginActivity.this, "dksav" , Toast.LENGTH_SHORT).show();
+////
+////                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<tokenObj> call, Throwable t) {
+//
+//            }
+//        });
 
+        JSONObject jsonBody = new JSONObject();
+
+        try {
+            jsonBody.put("username", user);
+            jsonBody.put("password", pass);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String url = "http://lahiruat-29044.portmap.io:29044/grocery-core/api/auth/";
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody, new com.android.volley.Response.Listener<JSONObject>() {
             @Override
-            public void onFailure(Call<tokenObj> call, Throwable t) {
-
+            public void onResponse(JSONObject response) {
+                Toast.makeText(LoginActivity.this, "dksav" , Toast.LENGTH_SHORT).show();
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(LoginActivity.this, "112121212" , Toast.LENGTH_SHORT).show();
             }
         });
+
+        requestQueue.add(jsonObjectRequest);
     }
 
     public void gotoNext(){
