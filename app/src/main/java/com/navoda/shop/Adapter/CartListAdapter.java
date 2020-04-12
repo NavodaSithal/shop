@@ -1,4 +1,4 @@
-package com.navoda.shop;
+package com.navoda.shop.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,13 +8,23 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainAdapter extends BaseAdapter {
+import com.navoda.shop.R;
+import com.navoda.shop.model.ListProductItem;
+import com.navoda.shop.model.MainProduct;
+
+import java.util.List;
+
+
+
+public class CartListAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private String[] data;
+    private List<ListProductItem> data;
     private int type;
-    public MainAdapter(Context context, String[] data, int a){
+
+
+    public CartListAdapter(Context context, List<ListProductItem> data, int a){
         this.context = context;
 //        this.layoutInflater = layoutInflater;
         this.data = data;
@@ -23,7 +33,7 @@ public class MainAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return data.length;
+        return data.size();
     }
 
     @Override
@@ -43,17 +53,19 @@ public class MainAdapter extends BaseAdapter {
         }
 
         if (convertView == null){
-            convertView = layoutInflater.inflate(R.layout.row_item, null);
+            convertView = layoutInflater.inflate(R.layout.cart_item, null);
         }
 
-        TextView txt = convertView.findViewById(R.id.txt);
-        TextView price = convertView.findViewById(R.id.price);
-        ImageView img = convertView.findViewById(R.id.img_view);
+        TextView txt = convertView.findViewById(R.id.txtItemNum);
+        TextView name = convertView.findViewById(R.id.txtName);
+        TextView quen = convertView.findViewById(R.id.txtQuentity);
 
-        txt.setText(data[position]);
-        if (type == 1){
-            price.setText(data[position]); 
-        }
+        ListProductItem obj = data.get(position);
+//
+        txt.setText(Integer.toString(position+1));
+        name.setText(obj.getName());
+        quen.setText(Integer.toString(obj.getQuentity()));
+
         return convertView;
     }
 }

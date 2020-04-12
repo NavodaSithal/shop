@@ -1,4 +1,4 @@
-package com.navoda.shop;
+package com.navoda.shop.model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,6 +9,8 @@ public class tokenObj {
 
     @SerializedName("tokenType")
     private String type;
+
+    public tokenObj(){}
 
     public tokenObj(String token, String type) {
         this.token = token;
@@ -21,5 +23,13 @@ public class tokenObj {
 
     public String getType() {
         return type;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

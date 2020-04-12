@@ -25,5 +25,8 @@
         android:background="@color/colorAccent"
         android:text="View List"
         android:onClick="onTapViewList"
+        android:id="@+id/viewlistbtn"
+        android:textColor="#fff"
+
         />
 </LinearLayout>

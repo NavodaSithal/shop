@@ -17,7 +17,18 @@
         android:textAlignment="center"/>
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/edtfirst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        android:hint="First Name"
+        android:inputType="textPersonName"
+        />
+
+    <EditText
+        android:id="@+id/edtuser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -28,7 +39,7 @@
          />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/edtemail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -39,7 +50,18 @@
         />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editmobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        android:inputType="textPersonName"
+        android:hint="Mobile"
+        />
+
+    <EditText
+        android:id="@+id/edtpsw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="20"
@@ -50,7 +72,7 @@
          />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/editconfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
