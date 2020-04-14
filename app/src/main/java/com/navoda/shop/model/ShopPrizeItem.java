@@ -18,17 +18,48 @@ public class ShopPrizeItem {
     @SerializedName("totalValue")
     private String totalValue;
 
+    @SerializedName("latitude")
+    private String lat;
+
+    @SerializedName("longitude")
+    private String lon;
+
     @SerializedName("notAvailableProductsList")
     private List<UnAvailableItem> notAvailableProductsList;
 
-    public ShopPrizeItem(int shopID, String shopName, String distance, String totalValue, List<UnAvailableItem> notAvailableProductsList) {
+//    public ShopPrizeItem(int shopID, String shopName, String distance, String totalValue, List<UnAvailableItem> notAvailableProductsList) {
+//        this.shopID = shopID;
+//        this.shopName = shopName;
+//        this.distance = distance;
+//        this.totalValue = totalValue;
+//        this.notAvailableProductsList = notAvailableProductsList;
+//    }
+
+    public ShopPrizeItem(int shopID, String shopName, String distance, String totalValue, String lat, String lon, List<UnAvailableItem> notAvailableProductsList) {
         this.shopID = shopID;
         this.shopName = shopName;
         this.distance = distance;
         this.totalValue = totalValue;
+        this.lat = lat;
+        this.lon = lon;
         this.notAvailableProductsList = notAvailableProductsList;
     }
 
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
 
     public int getShopID() {
         return shopID;

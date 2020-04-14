@@ -1,6 +1,8 @@
 package com.navoda.shop;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -37,6 +39,12 @@ public class AddToCartActivity extends AppCompatActivity {
         item.setmType(extras.getString("MTYPE"));
         itemCount.setText(Integer.toString(noOfItem));
         PName.setText(item.getName());
+
+        Resources res = getResources();
+        String mDrawableName = "cof_1";
+        int resID = res.getIdentifier(mDrawableName , "drawable", getPackageName());
+        Drawable drawable = res.getDrawable(resID );
+        img.setImageDrawable(drawable);
     }
 
     public void onTapMinus(View view) {

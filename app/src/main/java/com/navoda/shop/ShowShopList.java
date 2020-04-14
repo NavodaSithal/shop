@@ -61,6 +61,12 @@ public class ShowShopList extends AppCompatActivity {
 
         Intent i = new Intent(this, ConfirmShopOrder.class);
         i.putExtra("SHOP",json);
+        i.putExtra("REFNO",obj.getRefNo());
+        i.putExtra("OID",obj.getOrderID());
         startActivity(i);
+    }
+
+    public void ShowMap(View view) {
+
     }
 }
