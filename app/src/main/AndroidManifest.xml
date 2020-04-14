@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.navoda.shop">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -24,7 +25,9 @@
         <activity android:name=".ProductSearchActivity" />
         <activity android:name=".SecondSearchActivity" />
         <activity android:name=".ItemListActivity" />
-        <activity android:name=".AddToCartActivity"></activity>
+        <activity android:name=".AddToCartActivity" />
+        <activity android:name=".ShowShopList" />
+        <activity android:name=".ConfirmShopOrder"></activity>
     </application>
 
 </manifest>

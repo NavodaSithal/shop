@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -21,6 +22,9 @@ import com.navoda.shop.model.tokenObj;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,8 +43,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onTapLoginBtn(View view) {
 
-        String user = username.getText().toString();
-        String pass = psw.getText().toString();
+//        String user = username.getText().toString();
+//        String pass = psw.getText().toString();
+
+        String user = "saman";
+        String pass = "123456";
 
         if (user.isEmpty()){
             username.setError("Enter username");
@@ -125,13 +132,6 @@ public class LoginActivity extends AppCompatActivity {
         gotoNext();
 
 
-    }
-
-    public void getCustomer(){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Gson gson = new Gson();
-        String json = preferences.getString("MyObject", "");
-        CustomerObj obj = gson.fromJson(json, CustomerObj.class);
     }
 
 
