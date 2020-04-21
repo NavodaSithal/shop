@@ -20,13 +20,18 @@ public class HomeActivity extends AppCompatActivity {
 
 
     public void onTapProductListBtn(View view) {
+        Intent i = new Intent(this,TextRec.class);
+        startActivity(i);
     }
 
     public void onTapOrders(View view) {
+        Intent i = new Intent(this,MyOrdersActivity.class);
+        startActivity(i);
 
     }
 
     public void onTapAccountBtn(View view) {
-
+        Intent i = new Intent(this,Profile.class);
+        startActivity(i);
     }
 }

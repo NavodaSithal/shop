@@ -11,7 +11,7 @@ public class CustomerObj {
     private String firstname;
 
     @SerializedName("email")
-    private String quentity;
+    private String email;
 
     @SerializedName("lastName")
     private String lastName;
@@ -23,6 +23,15 @@ public class CustomerObj {
     private String status;
 
     public CustomerObj(){}
+
+    public CustomerObj(int id, String firstname, String email, String lastName, String mobileNo, String status) {
+        this.id = id;
+        this.firstname = firstname;
+        this.email = email;
+        this.lastName = lastName;
+        this.mobileNo = mobileNo;
+        this.status = status;
+    }
 
     public int getId() {
         return id;
@@ -40,12 +49,12 @@ public class CustomerObj {
         this.firstname = firstname;
     }
 
-    public String getQuentity() {
-        return quentity;
+    public String getEmail() {
+        return email;
     }
 
-    public void setQuentity(String quentity) {
-        this.quentity = quentity;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getLastName() {

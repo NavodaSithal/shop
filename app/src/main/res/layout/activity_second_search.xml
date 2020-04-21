@@ -38,7 +38,7 @@
     </GridView>
 
     <Button
-        android:background="@color/colorAccent"
+        android:background="@drawable/main_gradient"
         android:textColor="#fff"
         android:layout_width="match_parent"
         android:layout_height="40dp"

@@ -67,6 +67,11 @@ public class ShowShopList extends AppCompatActivity {
     }
 
     public void ShowMap(View view) {
+        Gson gson = new Gson();
+        String json = gson.toJson(obj);
 
+        Intent i = new Intent(this,ShopMapActivity.class);
+        i.putExtra("DATA",json);
+        startActivity(i);
     }
 }

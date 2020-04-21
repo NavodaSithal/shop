@@ -47,7 +47,7 @@ public class ConfirmShopOrder extends AppCompatActivity {
         unAvailbleList = findViewById(R.id.list_noitem);
 
         Intent i = getIntent();
-        String shop = i.getStringExtra("SHOP_LIST");
+        String shop = i.getStringExtra("SHOP");
         Gson gson = new Gson();
         obj = gson.fromJson(shop, ShopPrizeItem.class);
 
@@ -106,7 +106,8 @@ public class ConfirmShopOrder extends AppCompatActivity {
     }
 
     public void ShowSuccess(){
-
+        Intent i = new Intent(this,MyOrdersActivity.class);
+        startActivity(i);
     }
 
     public int getCustomerId(){

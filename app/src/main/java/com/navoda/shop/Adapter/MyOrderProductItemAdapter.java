@@ -9,22 +9,22 @@ import android.widget.TextView;
 
 import com.navoda.shop.R;
 import com.navoda.shop.model.ListProductItem;
-import com.navoda.shop.model.MainPrizeListItem;
-import com.navoda.shop.model.ShopPrizeItem;
+import com.navoda.shop.model.MyOrderListItem;
 
 import java.util.List;
 
 
-public class ShopListAdapter extends BaseAdapter {
+public class MyOrderProductItemAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private List<ShopPrizeItem> data;
+    private List<MyOrderListItem> data;
     private int type;
 
 
-    public ShopListAdapter(Context context, List<ShopPrizeItem> data, int a){
+    public MyOrderProductItemAdapter(Context context, List<MyOrderListItem> data, int a){
         this.context = context;
+//        this.layoutInflater = layoutInflater;
         this.data = data;
         this.type = a;
     }
@@ -51,19 +51,21 @@ public class ShopListAdapter extends BaseAdapter {
         }
 
         if (convertView == null){
-            convertView = layoutInflater.inflate(R.layout.shop_item, null);
+            convertView = layoutInflater.inflate(R.layout.cart_item, null);
         }
 
-        TextView name = convertView.findViewById(R.id.txt_shop_name);
-        TextView price = convertView.findViewById(R.id.tex_item_price);
-        TextView dis = convertView.findViewById(R.id.txt_dis);
+        TextView txt = convertView.findViewById(R.id.txtItemNum);
+        TextView name = convertView.findViewById(R.id.txtName);
+        TextView quen = convertView.findViewById(R.id.txtQuentity);
 
-        ShopPrizeItem obj = data.get(position);
+        MyOrderListItem obj = data.get(position);
 //
-        name.setText(obj.getShopName());
-        price.setText("Rs " +obj.getTotalValue());
-        dis.setText(obj.getDistance() + "KM");
+        txt.setText(Integer.toString(position+1));
+        name.setText(obj.getName());
+        int val =  Integer.valueOf(obj.getQuentity().intValue());
+        quen.setText(Integer.valueOf(val).toString());
 
         return convertView;
     }
 }
+

@@ -21,6 +21,8 @@
         android:text="Show On Map"
         android:layout_marginVertical="20dp"
         android:layout_marginHorizontal="20dp"
+        android:background="@drawable/btng"
+        android:textColor="@color/white"
         android:onClick="ShowMap"/>
 
 

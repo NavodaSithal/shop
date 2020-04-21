@@ -73,6 +73,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:id="@+id/list_noitem"></ListView>
 
         <Button
@@ -80,7 +81,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Confirm Shop"
+            android:background="@drawable/btng"
+            android:textColor="@color/white"
+            android:layout_weight="1"
             android:onClick="onTapConfirm"/>
+
     </LinearLayout>
 
 

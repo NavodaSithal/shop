@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.navoda.shop">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +20,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         >
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -30,6 +40,12 @@
         <activity android:name=".AddToCartActivity" />
         <activity android:name=".ShowShopList" />
         <activity android:name=".ConfirmShopOrder" />
+        <activity android:name=".ShopMapActivity" />
+        <activity android:name=".MyOrdersActivity" />
+        <activity android:name=".MyOrderItemListActivity" />
+        <activity android:name=".Profile" />
+        <activity android:name=".TextRec"></activity>
+
     </application>
 
 </manifest>

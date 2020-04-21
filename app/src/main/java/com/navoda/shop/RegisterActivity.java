@@ -20,8 +20,8 @@ import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText user , email, mobile, passsword, confirmpsw, firstname;
-    String psw,conp,username,email_,mobile_,first;
+    EditText user , email, mobile, passsword, confirmpsw, firstname , lastname;
+    String psw,conp,username,email_,mobile_,first,last;
     ProgressDialog progressDialog;
 
     @Override
@@ -35,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
         passsword = findViewById(R.id.edtpsw);
         confirmpsw = findViewById(R.id.editconfirm);
         firstname = findViewById(R.id.edtfirst);
-
+        lastname = findViewById(R.id.edtlast);
 
 
     }
@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         email_ = email.getText().toString();
         mobile_ = mobile.getText().toString();
         first = firstname.getText().toString();
+        last = lastname.getText().toString();
 
         if (username.isEmpty()){
             user.setError("Enter Username");
@@ -79,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
             jsonBody.put("email", email_);
             jsonBody.put("mobileNo", mobile_);
             jsonBody.put("firstName", first);
+            jsonBody.put("lastName", last);
 
         } catch (JSONException e) {
             e.printStackTrace();

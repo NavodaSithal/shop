@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "725662362880",
+    "firebase_url": "https://shopsheroni.firebaseio.com",
+    "project_id": "shopsheroni",
+    "storage_bucket": "shopsheroni.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725662362880:android:e35530e956af566e9f57e5",
+        "android_client_info": {
+          "package_name": "com.navoda.shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725662362880-maj7uakdqs1rkdi4d6k4eqg01p7da8ur.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbw7AQjXddaet35sLC3kVxO8AGBaAOKtc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725662362880-maj7uakdqs1rkdi4d6k4eqg01p7da8ur.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
