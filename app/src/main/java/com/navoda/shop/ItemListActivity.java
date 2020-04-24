@@ -1,11 +1,18 @@
 package com.navoda.shop;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,11 +47,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ItemListActivity extends AppCompatActivity {
-    ListView listView ;
+public class ItemListActivity extends AppCompatActivity implements LocationListener {
+    ListView listView;
 
     List<ListProductItem> ProductList;
     ProgressDialog progressDialog;
+    String longitude, latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,22 +63,37 @@ public class ItemListActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
 
-        CartListAdapter adapter = new CartListAdapter(this, ProductList,1);
+        CartListAdapter adapter = new CartListAdapter(this, ProductList, 1);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int itemPosition     = position;
+                int itemPosition = position;
 
                 // ListView Clicked item value
-                String  itemValue    = (String) listView.getItemAtPosition(position);
+                String itemValue = (String) listView.getItemAtPosition(position);
                 Toast.makeText(getApplicationContext(),
-                        "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
+                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
                         .show();
 
             }
         });
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new ItemListActivity();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
     }
 
     public void ontapcheckout(View view) {
@@ -87,7 +110,7 @@ public class ItemListActivity extends AppCompatActivity {
             productItem.add(a);
         }
 
-        Prizereq req = new Prizereq("6.927079","79.861244", productItem);
+        Prizereq req = new Prizereq(latitude,longitude, productItem);
 
         JSONObject jsonBody = new JSONObject();
         JSONArray array = new JSONArray();
@@ -115,7 +138,7 @@ public class ItemListActivity extends AppCompatActivity {
 
         jsonBody.toString();
 
-        String url = "http://lahiruat-29044.portmap.io:29044/grocery-core/api/customer/"+ getCustomerId() +"/get-products-prices";
+        String url = "http://"+cart.subUrl+".ngrok.io/grocery-core/api/customer/"+ getCustomerId() +"/get-products-prices";
         RequestQueue requestQueuenew = Volley.newRequestQueue(this);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
             @Override
@@ -162,5 +185,29 @@ public class ItemListActivity extends AppCompatActivity {
 
         int id = obj.getId();
         return id;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Toast.makeText(getBaseContext(), "Location changed: Lat: " + location.getLatitude() + " Lng: "
+                        + location.getLongitude(), Toast.LENGTH_SHORT).show();
+        longitude = String.valueOf(location.getLongitude()) ;
+        latitude = String.valueOf(location.getLatitude()) ;
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

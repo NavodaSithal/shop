@@ -74,7 +74,7 @@ public class ProductSearchActivity extends AppCompatActivity {
     }
 
     public void getProductList(){
-        String url = "http://lahiruat-29044.portmap.io:29044/grocery-core/api/customer/product-categories";
+        String url = "http://"+cart.subUrl+".ngrok.io/grocery-core/api/customer/product-categories";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override

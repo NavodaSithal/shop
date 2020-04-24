@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.navoda.shop.model.CustomerObj;
 import com.navoda.shop.model.MainPrizeListItem;
 import com.navoda.shop.model.ShopPrizeItem;
+import com.navoda.shop.model.cart;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,7 +85,7 @@ public class ConfirmShopOrder extends AppCompatActivity {
         }
 
 
-        String url = "http://lahiruat-29044.portmap.io:29044/grocery-core/api/customer/"+ getCustomerId() +"/confirm-order";
+        String url = "http://"+cart.subUrl+".ngrok.io/grocery-core/api/customer/"+ getCustomerId() +"/confirm-order";
         RequestQueue requestQueuenew = Volley.newRequestQueue(this);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
             @Override

@@ -16,13 +16,6 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/price"
-            android:layout_weight="1"
-            android:text="price"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/sub"
             android:layout_weight="1"
             android:text="sub"/>

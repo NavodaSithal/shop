@@ -81,7 +81,7 @@ public class SecondSearchActivity extends AppCompatActivity {
     }
 
     public void getData() {
-        String url = "http://lahiruat-29044.portmap.io:29044/grocery-core/api/customer/product-sub-categories/" + p_id;
+        String url = "http://"+cart.subUrl+".ngrok.io/grocery-core/api/customer/product-sub-categories/" + p_id;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override

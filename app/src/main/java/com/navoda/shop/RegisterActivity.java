@@ -13,6 +13,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.navoda.shop.model.cart;
 import com.navoda.shop.model.tokenObj;
 
 import org.json.JSONException;
@@ -86,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        String url = "http://lahiruat-29044.portmap.io:29044/grocery-core/api/customer/register";
+        String url = "http://"+cart.subUrl+".ngrok.io/grocery-core/api/customer/register";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody, new com.android.volley.Response.Listener<JSONObject>() {
             @Override

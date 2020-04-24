@@ -25,6 +25,7 @@ import com.navoda.shop.model.MainProduct;
 import com.navoda.shop.model.MyOrderListItem;
 import com.navoda.shop.model.MyOrdersMain;
 import com.navoda.shop.model.Product;
+import com.navoda.shop.model.cart;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +67,7 @@ public class MyOrdersActivity extends AppCompatActivity {
     }
 
     public void getMyOrders(){
-        String url = "http://lahiruat-29044.portmap.io:29044/grocery-core/api/customer/"+getCustomerId()+"/get-orders";
+        String url = "http://"+cart.subUrl+".ngrok.io/grocery-core/api/customer/"+getCustomerId()+"/get-orders";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
