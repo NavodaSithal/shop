@@ -1,9 +1,6 @@
 package com.navoda.shop;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.google.android.gms.dynamic.SupportFragmentWrapper;
@@ -16,6 +13,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.navoda.shop.model.MainPrizeListItem;
 import com.navoda.shop.model.ShopPrizeItem;
+
+import androidx.fragment.app.FragmentActivity;
 
 public class ShopMapActivity extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap map ;
@@ -37,6 +36,7 @@ public class ShopMapActivity extends FragmentActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        map.setMyLocationEnabled(true);
 
         for (ShopPrizeItem itrm : obj.getShopListWithPrices()){
             LatLng latLng = new LatLng(Double.valueOf(itrm.getLat()) , Double.valueOf(itrm.getLon()));

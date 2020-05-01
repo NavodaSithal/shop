@@ -1,6 +1,5 @@
 package com.navoda.shop;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -13,6 +12,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SetUrlCode extends AppCompatActivity {
     EditText text;

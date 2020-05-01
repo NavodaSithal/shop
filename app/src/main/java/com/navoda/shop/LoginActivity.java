@@ -1,10 +1,10 @@
 package com.navoda.shop;
 
 import android.app.ProgressDialog;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText username , psw;
@@ -48,14 +50,14 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onTapLoginBtn(View view) {
 
-//        String user = username.getText().toString();
-//        String pass = psw.getText().toString();
+        String user = username.getText().toString();
+        String pass = psw.getText().toString();
 
 //        gotoNext();
 
 
-        String user = "saman";
-        String pass = "123456";
+//        String user = "saman";
+//        String pass = "123456";
 
         if (user.isEmpty()){
             username.setError("Enter username");
@@ -88,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                         cus.setLastName(response.getString("lastName").toString());
                         cus.setMobileNo(response.getString("mobileNo").toString());
                         cus.setStatus(response.getString("status").toString());
+                        cus.setEmail(response.getString("email").toString());
                         cus.setId(response.getInt("id"));
                         saveCustomer(cus);
                     } catch (JSONException e) {
@@ -98,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     progressDialog.dismiss();
-                    Toast.makeText(LoginActivity.this, "112121212" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Connection Error" , Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -107,10 +110,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void saveToken(tokenObj obj){
+    public void saveUsername(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("accToken", obj.getToken());
+        editor.putString("USERNAME", username.getText().toString());
         editor.apply();
 
 
@@ -126,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
 
         editor.putString("CUSTOMER", json);
         editor.apply();
-
+        saveUsername();
         gotoNext();
 
 
@@ -146,7 +149,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void gotoNext(){
         Intent i = new Intent(this, HomeActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
+
     }
 }

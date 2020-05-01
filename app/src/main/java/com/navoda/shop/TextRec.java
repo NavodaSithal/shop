@@ -11,9 +11,6 @@ import android.net.Uri;
 import android.net.UrlQuerySanitizer;
 import android.nfc.Tag;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
@@ -32,7 +29,12 @@ import com.google.android.gms.vision.text.TextRecognizer;
 import java.io.IOException;
 import java.net.URL;
 
-public class TextRec extends AppCompatActivity{
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+public class TextRec extends AppCompatActivity {
 
     ImageView img;
     ContentValues values;
@@ -49,27 +51,27 @@ public class TextRec extends AppCompatActivity{
 
         cam();
 
-        Button b = findViewById(R.id.btn_check);
-        b.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
-                if (!textRecognizer.isOperational()){
-//                    Toast.makeText(this,"no text",Toast.LENGTH_SHORT).show();
-                }else {
-                    Frame frame = new Frame.Builder().setBitmap(thumbnail).build();
-                    SparseArray<TextBlock> item = textRecognizer.detect(frame);
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0 ; i < item.size() ; i++){
-                        TextBlock textBlock = item.valueAt(i);
-                        stringBuilder.append(textBlock.getValue());
-                        stringBuilder.append("\n");
-
-                    }
-                }
-            }
-        }) ;
+//        Button b = findViewById(R.id.btn_check);
+//        b.setOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View v) {
+//                TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
+//                if (!textRecognizer.isOperational()){
+////                    Toast.makeText(this,"no text",Toast.LENGTH_SHORT).show();
+//                }else {
+//                    Frame frame = new Frame.Builder().setBitmap(thumbnail).build();
+//                    SparseArray<TextBlock> item = textRecognizer.detect(frame);
+//                    StringBuilder stringBuilder = new StringBuilder();
+//                    for (int i = 0 ; i < item.size() ; i++){
+//                        TextBlock textBlock = item.valueAt(i);
+//                        stringBuilder.append(textBlock.getValue());
+//                        stringBuilder.append("\n");
+//
+//                    }
+//                }
+//            }
+//        }) ;
     }
 
 
@@ -80,7 +82,9 @@ public class TextRec extends AppCompatActivity{
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
 //        if (requestCode == 100){
 //            Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
 //            img.setImageBitmap(imageBitmap);
@@ -100,6 +104,8 @@ public class TextRec extends AppCompatActivity{
 
             }
     }
+
+
 
     public String getRealPathFromURI(Uri contentUri) {
         String[] proj = { MediaStore.Images.Media.DATA };
@@ -126,25 +132,33 @@ public class TextRec extends AppCompatActivity{
         startActivityForResult(intent, PICTURE_RESULT);
       }
 
-//    public void onTapCheck() {
-//        TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
-//        if (!textRecognizer.isOperational()){
-//            Toast.makeText(this,"no text",Toast.LENGTH_SHORT).show();
-//        }else {
-//            Frame frame = new Frame.Builder().setBitmap(thumbnail).build();
-//            SparseArray<TextBlock> item = textRecognizer.detect(frame);
-//            StringBuilder stringBuilder = new StringBuilder();
-//            for (int i = 0 ; i < item.size() ; i++){
-//                TextBlock textBlock = item.valueAt(i);
-//                stringBuilder.append(textBlock.getValue());
-//                stringBuilder.append("\n");
-//
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void onClick(View v) {
-//        onTapCheck();
-//    }
+    public void ontapcheck(View view) {
+        TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
+        if (!textRecognizer.isOperational()){
+            Toast.makeText(this,"no text",Toast.LENGTH_SHORT).show();
+        }else {
+            Frame frame = new Frame.Builder().setBitmap(thumbnail).build();
+            SparseArray<TextBlock> item = textRecognizer.detect(frame);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0 ; i < item.size() ; i++){
+                TextBlock textBlock = item.valueAt(i);
+                stringBuilder.append(textBlock.getValue());
+                stringBuilder.append("\n");
+            }
+            showText(stringBuilder.toString());
+        }
+    }
+
+    public void showText(String s){
+        if (!s.isEmpty()){
+            Intent i = new Intent(this,OcrTextActivity.class);
+            i.putExtra("TEXT",s);
+            startActivity(i);
+        }else{
+            Toast.makeText(this,"no text",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
 }

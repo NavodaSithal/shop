@@ -54,22 +54,27 @@ public class ProductAdapter extends BaseAdapter {
         if (convertView == null){
             convertView = layoutInflater.inflate(R.layout.row_item, null);
         }
+        Product obj = data.get(position);
 
         String s = "R.drawable.cof_1";
 
         TextView txt = convertView.findViewById(R.id.txt);
-        TextView price = convertView.findViewById(R.id.price);
+//        TextView price = convertView.findViewById(R.id.price);
         ImageView img = convertView.findViewById(R.id.img_view);
 
 //        img.setImageResource(R.drawable.cof_1);
 
         Resources res = context.getResources();
-        String mDrawableName = "cof_1";
+        String mDrawableName;
+        if (obj.getImage().isEmpty()){
+           mDrawableName = "product";
+        }else{
+            mDrawableName = obj.getImage();
+        }
         int resID = res.getIdentifier(mDrawableName , "drawable", context.getPackageName());
-        Drawable drawable = res.getDrawable(resID );
+        Drawable drawable = res.getDrawable(resID);
         img.setImageDrawable(drawable);
 
-        Product obj = data.get(position);
 //
         txt.setText(obj.getName());
         if (type == 1){

@@ -2,12 +2,13 @@ package com.navoda.shop;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.navoda.shop.model.CustomerObj;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Profile extends AppCompatActivity {
 
@@ -29,8 +30,15 @@ public class Profile extends AppCompatActivity {
         String json = preferences.getString("CUSTOMER", "");
         CustomerObj obj = gson.fromJson(json, CustomerObj.class);
 
+        String user = preferences.getString("USERNAME", "");
+        username.setText(user);
+
         firstname.setText(obj.getFirstname());
-        lastname.setText(obj.getLastName());
+        if (obj.getLastName().isEmpty() || obj.getLastName().equals("null")){
+            lastname.setText("");
+        }else{
+            lastname.setText(obj.getLastName());
+        }
         mobile.setText(obj.getMobileNo());
         email.setText(obj.getEmail());
 

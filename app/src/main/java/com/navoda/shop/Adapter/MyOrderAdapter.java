@@ -3,7 +3,6 @@ package com.navoda.shop.Adapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,10 @@ import com.navoda.shop.model.MainProduct;
 import com.navoda.shop.model.MyOrdersMain;
 
 import java.util.List;
+
+import androidx.core.content.ContextCompat;
+
+import static com.navoda.shop.R.drawable.text_status_pending;
 
 
 public class MyOrderAdapter extends BaseAdapter {
@@ -63,16 +66,25 @@ public class MyOrderAdapter extends BaseAdapter {
         TextView shop = convertView.findViewById(R.id.txt_shop);
         TextView refNo = convertView.findViewById(R.id.txt_ref_no);
 
-        Drawable background = txt.getBackground();
+        String order_status = "Pending";
 
-
-        if (obj.getStatus() == ""){
-            if (background instanceof ShapeDrawable) {
-                ((ShapeDrawable)background).getPaint().setColor(ContextCompat.getColor(context,R.color.white));
-            }
+        if (obj.getStatus().equals("MERCHANT_CONFIRMED")){
+            order_status = "Preparing";
+            txt.setBackgroundResource(R.drawable.text_status_confirm);
+        }else if (obj.getStatus().equals("MERCHANT_CANCELED") || obj.getStatus().equals("CANCELED")){
+            order_status = "Canceled";
+            txt.setBackgroundResource(R.drawable.text_status);
+        }else if (obj.getStatus().equals("CUSTOMER_PICKED_UP")){
+            order_status = "Picked Up";
+            txt.setBackgroundResource(R.drawable.text_status_pickedup);
+        }else{
+            order_status = "Pending";
+            txt.setBackgroundResource(text_status_pending);
+//            txt.setPadding(10,0,10,0);
         }
+        txt.setPaddingRelative(40,5,40,5);
 
-        txt.setText(obj.getStatus());
+        txt.setText(order_status);
         price.setText(Integer.valueOf(obj.getOrderID()).toString());
         shop.setText(obj.getShopName());
         refNo.setText(obj.getRefNo());

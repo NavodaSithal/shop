@@ -1,6 +1,8 @@
 package com.navoda.shop.Adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,12 +55,19 @@ public class MainAdapter extends BaseAdapter {
         }
 
         TextView txt = convertView.findViewById(R.id.txt);
-        TextView price = convertView.findViewById(R.id.price);
+//        TextView price = convertView.findViewById(R.id.price);
         ImageView img = convertView.findViewById(R.id.img_view);
 
         MainProduct obj = data.get(position);
-//
         txt.setText(obj.getCategoryName());
+
+        Resources res = context.getResources();
+        String mDrawableName = "product";
+
+        int resID = res.getIdentifier(mDrawableName , "drawable", context.getPackageName());
+        Drawable drawable = res.getDrawable(resID);
+        img.setImageDrawable(drawable);
+
         if (type == 1){
 //            price.setText(data.indexOf(position));
         }

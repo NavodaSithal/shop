@@ -8,12 +8,12 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,7 +27,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.navoda.shop.Adapter.CartListAdapter;
 import com.navoda.shop.Adapter.ProductAdapter;
 import com.navoda.shop.model.CustomerObj;
@@ -43,17 +48,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 
-public class ItemListActivity extends AppCompatActivity implements LocationListener {
+public class ItemListActivity extends AppCompatActivity {
     ListView listView;
 
     List<ListProductItem> ProductList;
     ProgressDialog progressDialog;
     String longitude, latitude;
-
+    FusedLocationProviderClient fusedLocationProviderClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,23 +91,12 @@ public class ItemListActivity extends AppCompatActivity implements LocationListe
             }
         });
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener = new ItemListActivity();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+//        checkAndGetLocation();
+
     }
 
-    public void ontapcheckout(View view) {
+    public void checkShops(){
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Logging....");
         progressDialog.show();
@@ -155,7 +155,7 @@ public class ItemListActivity extends AppCompatActivity implements LocationListe
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
-                Toast.makeText(ItemListActivity.this, "112121212" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(ItemListActivity.this, "Connection Error" , Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -163,7 +163,42 @@ public class ItemListActivity extends AppCompatActivity implements LocationListe
 
     }
 
+    public void ontapcheckout(View view) {
+        checkAndGetLocation();
+
+    }
+
+    public void checkAndGetLocation(){
+        if (ActivityCompat.checkSelfPermission(ItemListActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            getLocation();
+        }else{
+            ActivityCompat.requestPermissions(ItemListActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        }
+    }
+
+    private void getLocation() {
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                Location location = task.getResult();
+                if (location != null){
+//                    Geocoder geocoder = new Geocoder(ItemListActivity.this, Locale.getDefault());
+                    latitude = String.valueOf(location.getLatitude());
+                    longitude = String.valueOf(location.getLongitude());
+
+                    checkShops();
+
+                }else{
+                    Toast.makeText(ItemListActivity.this, "location data missing" , Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+    }
+
     public void gotoShopList(MainPrizeListItem item){
+
+        saveList();
 
         Gson gson = new Gson();
         String json = gson.toJson(item);
@@ -172,6 +207,30 @@ public class ItemListActivity extends AppCompatActivity implements LocationListe
         i.putExtra("SHOP_LIST",json);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
+    }
+
+
+    public void saveList(){
+//        Gson gson = new Gson();
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        String productList = preferences.getString("PRODUCT_LIST", "");
+//        List<ListProductItem>  objList;
+//        if (!productList.isEmpty()){
+//            Type type = new TypeToken<ArrayList<ListProductItem>>() {}.getType();
+//             objList =  gson.fromJson(productList, type);
+//            objList.addAll(ProductList);
+//
+//        }else{
+//            objList = ProductList;
+//        }
+//
+//
+//        SharedPreferences.Editor editor = preferences.edit();
+//
+//        String json = gson.toJson(objList);
+//
+//        editor.putString("PRODUCT_LIST", json);
+//        editor.apply();
     }
 
 
@@ -187,27 +246,12 @@ public class ItemListActivity extends AppCompatActivity implements LocationListe
         return id;
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        Toast.makeText(getBaseContext(), "Location changed: Lat: " + location.getLatitude() + " Lng: "
-                        + location.getLongitude(), Toast.LENGTH_SHORT).show();
-        longitude = String.valueOf(location.getLongitude()) ;
-        latitude = String.valueOf(location.getLatitude()) ;
 
-    }
+    public void onTapClear(View view) {
+        cart.cartArr.clear();
 
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
+        Intent i = new Intent(this, HomeActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
     }
 }

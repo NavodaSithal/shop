@@ -2,7 +2,6 @@ package com.navoda.shop;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -18,6 +17,8 @@ import com.navoda.shop.model.tokenObj;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -37,8 +38,6 @@ public class RegisterActivity extends AppCompatActivity {
         confirmpsw = findViewById(R.id.editconfirm);
         firstname = findViewById(R.id.edtfirst);
         lastname = findViewById(R.id.edtlast);
-
-
     }
 
     public void onTapCustomer(View view) {
@@ -99,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
-                Toast.makeText(RegisterActivity.this, "112121212" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Connection Error" , Toast.LENGTH_SHORT).show();
             }
         });
 

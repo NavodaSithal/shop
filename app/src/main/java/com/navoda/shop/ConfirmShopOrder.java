@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -18,7 +17,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.navoda.shop.model.CustomerObj;
+import com.navoda.shop.model.ListProductItem;
 import com.navoda.shop.model.MainPrizeListItem;
 import com.navoda.shop.model.ShopPrizeItem;
 import com.navoda.shop.model.cart;
@@ -26,9 +27,15 @@ import com.navoda.shop.model.cart;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 public class ConfirmShopOrder extends AppCompatActivity {
 
-    TextView shopName , Price , Distance ;
+    TextView shopName , Price , Distance , unavilable;
     ListView unAvailbleList;
     ProgressDialog progressDialog;
 
@@ -46,6 +53,7 @@ public class ConfirmShopOrder extends AppCompatActivity {
         Price = findViewById(R.id.txt_total);
         Distance = findViewById(R.id.txt_distance);
         unAvailbleList = findViewById(R.id.list_noitem);
+        unavilable = findViewById(R.id.txt_unavailable);
 
         Intent i = getIntent();
         String shop = i.getStringExtra("SHOP");
@@ -62,6 +70,7 @@ public class ConfirmShopOrder extends AppCompatActivity {
 
         if (obj.getNotAvailableProductsList().size() == 0){
             unAvailbleList.setVisibility(View.GONE);
+            unavilable.setVisibility(View.GONE);
         }else{
 
         }
@@ -91,7 +100,6 @@ public class ConfirmShopOrder extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 progressDialog.dismiss();
-                Toast.makeText(ConfirmShopOrder.this, "dksav" , Toast.LENGTH_SHORT).show();
                 ShowSuccess();
 
             }
@@ -99,7 +107,7 @@ public class ConfirmShopOrder extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
-                Toast.makeText(ConfirmShopOrder.this, "112121212" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(ConfirmShopOrder.this, "Connection Error" , Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -107,8 +115,56 @@ public class ConfirmShopOrder extends AppCompatActivity {
     }
 
     public void ShowSuccess(){
+        saveList();
+
+
         Intent i = new Intent(this,MyOrdersActivity.class);
         startActivity(i);
+    }
+
+
+    public void saveList(){
+        Gson gson = new Gson();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String productList = preferences.getString("PRODUCT_LIST", "");
+        List<ListProductItem> objList;
+//        List<ListProductItem> newListItem = new ArrayList<>();
+
+        if (!productList.isEmpty()){
+            Type type = new TypeToken<ArrayList<ListProductItem>>() {}.getType();
+            objList =  gson.fromJson(productList, type);
+
+            objList.addAll(cart.cartArr);
+
+           /* for (ListProductItem item : cart.cartArr){
+                int value = item.getQuentity();
+                ListProductItem prodouct = new ListProductItem();
+                for (ListProductItem i : objList){
+                    if (item.getId() == i.getId()){
+                        prodouct = i;
+                        value = value + i.getQuentity();
+                    }
+                }
+                if (value == item.getQuentity()){
+                    newListItem.add(item);
+                }else{
+                   prodouct.setQuentity(value);
+                   newListItem.add(prodouct);
+                }
+            }*/
+        }else{
+            objList = cart.cartArr;
+        }
+
+        SharedPreferences.Editor editor = preferences.edit();
+
+        String json = gson.toJson(objList);
+
+        editor.putString("PRODUCT_LIST", json);
+        editor.apply();
+
+        cart.cartArr.clear();
+
     }
 
     public int getCustomerId(){

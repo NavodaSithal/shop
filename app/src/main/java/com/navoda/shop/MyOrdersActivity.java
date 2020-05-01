@@ -4,11 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,15 +34,23 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class MyOrdersActivity extends AppCompatActivity {
 
     ListView orderList;
     ProgressDialog progressDialog;
     List<MyOrdersMain>  dataM;
+    int type = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_orders);
+
+        Bundle b = getIntent().getExtras();
+        if (b != null){
+            type = b.getInt("FROM");
+        }
 
         orderList = findViewById(R.id.order_list);
         dataM = new ArrayList<>();
@@ -83,25 +91,6 @@ public class MyOrdersActivity extends AppCompatActivity {
                     }
                     dataM.add(data);
 
-//                    try {
-//                        JSONObject jsonObject = response.getJSONObject(i);
-//
-//                        MyOrdersMain item = new MyOrdersMain();
-//                        item.setOrderID(jsonObject.getInt("orderID"));
-//                        item.setRefNo(jsonObject.getString("refNo").toString());
-//                        item.setShopName(jsonObject.getString("shopName").toString());
-//                        item.setStatus(jsonObject.getString("status").toString());
-//                        item.setShopID(jsonObject.getInt("shopID"));
-////                        item.setItemList(jsonObject.get);
-//
-//                        for (MyOrderListItem itemS : jsonObject.getJSONArray("")){
-//
-//                        }
-//                        dataM.add(item);
-
-//                    }catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
                 }
 
                 setData();
@@ -110,6 +99,8 @@ public class MyOrdersActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
+                Toast.makeText(MyOrdersActivity.this, "Connection Error" , Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -135,5 +126,17 @@ public class MyOrdersActivity extends AppCompatActivity {
 
         int id = obj.getId();
         return id;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (type == 1) {
+            super.onBackPressed();
+        }else{
+            Intent i = new Intent(this, HomeActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+
+        }
     }
 }

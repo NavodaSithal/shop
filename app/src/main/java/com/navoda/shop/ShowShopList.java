@@ -1,7 +1,7 @@
 package com.navoda.shop;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +14,10 @@ import com.navoda.shop.Adapter.ShopListAdapter;
 import com.navoda.shop.model.CustomerObj;
 import com.navoda.shop.model.MainPrizeListItem;
 import com.navoda.shop.model.ShopPrizeItem;
+import com.navoda.shop.model.cart;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ShowShopList extends AppCompatActivity {
 
@@ -73,5 +77,45 @@ public class ShowShopList extends AppCompatActivity {
         Intent i = new Intent(this,ShopMapActivity.class);
         i.putExtra("DATA",json);
         startActivity(i);
+    }
+
+    @Override
+    public void onBackPressed() {
+        showAlert();
+    }
+
+    public void showAlert(){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("Do you want to clear this cart");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+                        gotoHome();
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    public void gotoHome(){
+        cart.cartArr.clear();
+
+        Intent i = new Intent(this, HomeActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+
     }
 }

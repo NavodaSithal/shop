@@ -3,7 +3,6 @@ package com.navoda.shop;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +11,8 @@ import android.widget.TextView;
 import com.navoda.shop.model.ListProductItem;
 import com.navoda.shop.model.Product;
 import com.navoda.shop.model.cart;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AddToCartActivity extends AppCompatActivity {
     TextView PName , Price , itemCount;

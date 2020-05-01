@@ -1,7 +1,7 @@
 package com.navoda.shop;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -12,11 +12,16 @@ import com.navoda.shop.Adapter.ShopListAdapter;
 import com.navoda.shop.model.MyOrdersMain;
 import com.navoda.shop.model.ShopPrizeItem;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import static com.navoda.shop.R.drawable.text_status_pending;
+
 public class MyOrderItemListActivity extends AppCompatActivity {
 
     TextView shopName , orderId , refNo , status;
     ListView list;
     MyOrdersMain obj;
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +38,29 @@ public class MyOrderItemListActivity extends AppCompatActivity {
         Gson gson = new Gson();
         obj = gson.fromJson(shop, MyOrdersMain.class);
 
+        String order_status = "Pending";
+
+        if (obj.getStatus().equals("MERCHANT_CONFIRMED")){
+            order_status = "Preparing";
+            status.setTextColor(getResources().getColor(R.color.colorGreen));
+
+        }else if (obj.getStatus().equals("MERCHANT_CANCELED") || obj.getStatus().equals("CANCELED")){
+            order_status = "Canceled";
+            status.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+        }else if (obj.getStatus().equals("CUSTOMER_PICKED_UP")){
+            order_status = "Picked Up";
+            status.setTextColor(getResources().getColor(R.color.colorPerple));
+
+        }else{
+            order_status = "Pending";
+            status.setTextColor(getResources().getColor(R.color.colorAccent));
+        }
+
         shopName.setText(obj.getShopName());
         orderId.setText(Integer.valueOf(obj.getOrderID()).toString());
         refNo.setText(obj.getRefNo());
-        status.setText(obj.getStatus());
+        status.setText(order_status);
 
         MyOrderProductItemAdapter adapter = new MyOrderProductItemAdapter(this, obj.getItemList(),1);
         list.setAdapter(adapter);

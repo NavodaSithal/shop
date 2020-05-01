@@ -16,13 +16,26 @@
         android:paddingBottom="20dp">
     </ListView>
 
+
+
+
     <Button
         android:id="@+id/confirm"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Confirm"
+        android:text="Check price"
         android:textColor="#fff"
         android:background="@drawable/btng"
         android:onClick="ontapcheckout"/>
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:id="@+id/clear"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="clear all"
+        android:textColor="#34495E"
+        android:background="@drawable/btn_white"
+        android:onClick="onTapClear"/>
 
 </LinearLayout>
